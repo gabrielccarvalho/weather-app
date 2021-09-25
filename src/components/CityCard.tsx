@@ -5,6 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import styled from 'styled-components'
 
+import FavoriteContext from '../containers/FavoriteProvider'
 import { weatherRequest } from '../services/api'
 
 import { Text } from './Text'
@@ -27,7 +28,8 @@ const Col = styled(View)`
   justify-content: center;
   align-items: flex-start;
 `
-
+// We disable camel-case linting for the weather data type
+/* eslint-disable camelcase */
 type WeatherData = {
   name: string
   weather: [
@@ -51,7 +53,8 @@ type WeatherData = {
 }
 
 const CityCard = ({ city }: { city: string }) => {
-  const [favorite, setFavorite] = React.useState<boolean>(false)
+  const { favorites, updateFavorites } = React.useContext(FavoriteContext)
+  const [favorite, setFavorite] = React.useState<boolean>(favorites.includes(city))
   const [data, setData] = React.useState<WeatherData>()
 
   React.useEffect(() => {
@@ -79,7 +82,12 @@ const CityCard = ({ city }: { city: string }) => {
           }}
         >
           <Text size='lg'>{data?.main.temp.toFixed(0)} °C</Text>
-          <Button onPress={() => setFavorite(!favorite)}>
+          <Button
+            onPress={() => {
+              setFavorite(!favorite)
+              updateFavorites(city)
+            }}
+          >
             <Icon color={favorite ? '#ff0000' : '#e7e4fc'} name='favorite' size={25} />
           </Button>
         </Col>

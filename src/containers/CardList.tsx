@@ -5,6 +5,8 @@ import styled from 'styled-components'
 
 import { CityCard } from '../components'
 
+import FavoriteContext from './FavoriteProvider'
+
 const ScrollContainer = styled(ScrollView).attrs({
   contentInsetAdjustmentBehavior: 'automatic',
   contentContainerStyle: { flexGrow: 1 },
@@ -13,22 +15,17 @@ const ScrollContainer = styled(ScrollView).attrs({
     isDarkMode ? theme.colors.black : theme.colors.lightest};
 `
 
-type Props = {
-  city: string
-  setEmpty: React.Dispatch<React.SetStateAction<boolean>>
-}
-
-const CardList = ({ city, setEmpty }: Props) => {
+const CardList = ({ city }: { city: string }) => {
+  const { favorites } = React.useContext(FavoriteContext)
   const isDarkMode = useColorScheme() === 'dark'
-
-  React.useEffect(() => {
-    // If there is no search, we don't need to show any card.
-    city === '' && setEmpty(true)
-  }, [city])
 
   return (
     <ScrollContainer isDarkMode={isDarkMode}>
-      <CityCard city={city} />
+      {city === '' ? (
+        favorites.length > 0 && favorites.map(city => <CityCard key={city} city={city} />)
+      ) : (
+        <CityCard city={city} />
+      )}
     </ScrollContainer>
   )
 }

@@ -3,11 +3,13 @@ import { SafeAreaView, StatusBar, useColorScheme } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 import { CardList, EmptyState, Header } from '../containers'
+import FavoriteContext from '../containers/FavoriteProvider'
 
 const WeatherApp = () => {
+  const { favorites } = React.useContext(FavoriteContext)
   const [query, setQuery] = React.useState<string>('')
   const [city, setCity] = React.useState<string>('')
-  const [isEmpty, setEmpty] = React.useState<boolean>(false)
+  const [isEmpty, setEmpty] = React.useState<boolean>(favorites.length === 0)
   const timeoutToUpdateCity = React.useRef<number>(500)
   const isDarkMode = useColorScheme() === 'dark'
 
@@ -21,7 +23,8 @@ const WeatherApp = () => {
   React.useEffect(() => {
     timeoutToUpdateCity.current = setTimeout(() => {
       setCity(query)
-    }, 500) as unknown as number
+      query !== '' && setEmpty(false)
+    }, 800) as unknown as number
     return () => {
       clearTimeout(timeoutToUpdateCity.current)
     }
@@ -29,15 +32,14 @@ const WeatherApp = () => {
   }, [query])
 
   React.useEffect(() => {
-    // If there is a search, we don't need to show the empty state anymore.
-    city !== '' && setEmpty(false)
-  }, [city])
+    favorites.length === 0 && setEmpty(true)
+  }, [favorites])
 
   return (
     <SafeAreaView style={containerStyle}>
       <StatusBar barStyle='light-content' />
       <Header query={query} setQuery={setQuery} />
-      {isEmpty ? <EmptyState /> : <CardList city={city} setEmpty={setEmpty} />}
+      {isEmpty ? <EmptyState /> : <CardList city={city} />}
     </SafeAreaView>
   )
 }

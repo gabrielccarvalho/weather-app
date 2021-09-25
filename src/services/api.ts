@@ -1,3 +1,5 @@
+// Fix dotenv import issue
+// eslint-disable-next-line import/no-unresolved
 import { API_KEY } from '@env'
 import axios from 'axios'
 
