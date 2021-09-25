@@ -17,7 +17,7 @@ const WeatherApp = () => {
   return (
     <SafeAreaView style={containerStyle}>
       <StatusBar
-        barStyle={isDarkMode ? 'light-content' : 'dark-content'}
+        barStyle='light-content'
       />
       <Header />
       {isEmpty ? <EmptyState /> : <CardList />}
