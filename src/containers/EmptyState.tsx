@@ -3,7 +3,7 @@ import { View, useColorScheme, ScrollView } from 'react-native'
 
 import styled from 'styled-components'
 
-import { Text } from './Text'
+import { Text } from '../components'
 
 const ScrollContainer = styled(ScrollView).attrs({
   contentInsetAdjustmentBehavior: "automatic",

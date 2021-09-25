@@ -3,8 +3,7 @@ import { SafeAreaView, StatusBar, useColorScheme } from 'react-native'
 
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
-import { Header } from '../containers'
-import { EmptyState, CityCard } from '../components'
+import { Header, EmptyState, CardList } from '../containers'
 
 const WeatherApp = () => {
   const [isEmpty, setIsEmpty] = React.useState<boolean>(false)
@@ -21,7 +20,7 @@ const WeatherApp = () => {
         barStyle={isDarkMode ? 'light-content' : 'dark-content'}
       />
       <Header />
-      {isEmpty ? <EmptyState /> : <CityCard />}
+      {isEmpty ? <EmptyState /> : <CardList />}
     </SafeAreaView>
   )
 }
