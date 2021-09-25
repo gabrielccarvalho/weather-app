@@ -8,14 +8,14 @@ export const theme = {
     medium: '	#968bde',
     dark: '#7365c7',
     darkest: '#5345ac',
-    transparent: 'transparent'
+    transparent: 'transparent',
   },
   textWeights: {
     normal: '400',
     semiBold: '600',
     bold: '700',
     extraBold: '800',
-    black: '900'
+    black: '900',
   },
   textSizes: {
     xl: '28px',
@@ -24,7 +24,7 @@ export const theme = {
     mmd: '22px',
     md: '20px',
     sm: '16px',
-    xs: '14px'
+    xs: '14px',
   },
   shadow: '0px 0px 11px #0000002C',
   space: {
@@ -33,8 +33,8 @@ export const theme = {
     md: '12px',
     lg: '18px',
     xl: '20px',
-    xxl: '24px'
-  }
+    xxl: '24px',
+  },
 }
 
 export type ThemeColors = keyof typeof theme['colors']

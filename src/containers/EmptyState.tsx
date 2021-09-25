@@ -1,29 +1,25 @@
 import React from 'react'
-import { View, useColorScheme, ScrollView } from 'react-native'
+import { ScrollView, View, useColorScheme } from 'react-native'
 
 import styled from 'styled-components'
 
 import { Text } from '../components'
 
 const ScrollContainer = styled(ScrollView).attrs({
-  contentInsetAdjustmentBehavior: "automatic",
-  contentContainerStyle: { flexGrow: 1, justifyContent: 'center' }
-})<{isDarkMode: boolean}>`
-  background-color:
-    ${({ isDarkMode, theme }) =>
-      isDarkMode ? theme.colors.black : theme.colors.lightest
-    };
+  contentInsetAdjustmentBehavior: 'automatic',
+  contentContainerStyle: { flexGrow: 1, justifyContent: 'center' },
+})<{ isDarkMode: boolean }>`
+  background-color: ${({ isDarkMode, theme }) =>
+    isDarkMode ? theme.colors.black : theme.colors.lightest};
 `
 
-const Container = styled(View)<{isDarkMode: boolean}>`
+const Container = styled(View)<{ isDarkMode: boolean }>`
   align-items: center;
   justify-content: center;
   padding: 0 30px;
 
-  background-color:
-    ${({ isDarkMode, theme }) =>
-      isDarkMode ? theme.colors.black : theme.colors.lightest
-    };
+  background-color: ${({ isDarkMode, theme }) =>
+    isDarkMode ? theme.colors.black : theme.colors.lightest};
 `
 
 const EmptyState = () => {
@@ -32,17 +28,10 @@ const EmptyState = () => {
   return (
     <ScrollContainer isDarkMode={isDarkMode}>
       <Container isDarkMode={isDarkMode}>
-        <Text
-          size='lg'
-          weight='semiBold'
-          style={{ textAlign: 'center', marginBottom: 20 }}
-        >
+        <Text size='lg' weight='semiBold' style={{ textAlign: 'center', marginBottom: 20 }}>
           Parece que você ainda nāo adicionou nenuma cidade
         </Text>
-        <Text
-          size ='md'
-          style={{ textAlign: 'center' }}
-        >
+        <Text size='md' style={{ textAlign: 'center' }}>
           Tente adicionar uma cidade usando o botāo de busca acima!
         </Text>
       </Container>
@@ -51,4 +40,3 @@ const EmptyState = () => {
 }
 
 export default EmptyState
-

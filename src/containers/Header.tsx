@@ -1,15 +1,15 @@
 import React from 'react'
-import { View, useColorScheme, Platform } from 'react-native'
+import { Platform, View, useColorScheme } from 'react-native'
+import { Button, Searchbar } from 'react-native-paper'
+import Icon from 'react-native-vector-icons/FontAwesome'
 
 import styled, { DefaultTheme } from 'styled-components'
-import Icon from 'react-native-vector-icons/FontAwesome'
-import { Searchbar, Button } from 'react-native-paper'
 
 import { Text } from '../components'
 
 type Color = keyof DefaultTheme['colors']
 
-const Container = styled(View)<{bgColor: Color}>`
+const Container = styled(View)<{ bgColor: Color }>`
   padding: 20px;
   background-color: ${({ bgColor, theme }) => theme.colors[bgColor]};
 `
@@ -43,26 +43,21 @@ const Header = ({ query, setQuery }: HeaderProps) => {
       style={Platform.OS === 'ios' && { marginTop: -50, paddingTop: 50 }}
     >
       <Wrapper>
-        <Text
-          size='lg'
-          color='white'
-          weight='semiBold'
-        >
+        <Text size='lg' color='white' weight='semiBold'>
           Cidades
         </Text>
-        <Button
-          onPress={() => setShowSearch(!showSearch)}
-        >
+        <Button onPress={() => setShowSearch(!showSearch)}>
           <Icon color='white' name='search' size={20} />
         </Button>
       </Wrapper>
-      {showSearch &&
+      {showSearch && (
         <Search
           autoCorrect={false}
-          placeholder="Procure por uma cidade..."
+          placeholder='Procure por uma cidade...'
           onChangeText={(query: string) => setQuery(query)}
           value={query}
-      />}
+        />
+      )}
     </Container>
   )
 }

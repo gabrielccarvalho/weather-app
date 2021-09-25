@@ -1,12 +1,13 @@
 import React from 'react'
 import { View } from 'react-native'
+import { Button } from 'react-native-paper'
+import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import styled from 'styled-components'
-import Icon from 'react-native-vector-icons/MaterialIcons'
-import { Button } from 'react-native-paper'
+
+import { weatherRequest } from '../services/api'
 
 import { Text } from './Text'
-import { weatherRequest } from '../services/api'
 
 const Container = styled(View)`
   align-items: stretch;
@@ -53,7 +54,9 @@ const CityCard = ({ city }: { city: string }) => {
   const [favorite, setFavorite] = React.useState<boolean>(false)
   const [data, setData] = React.useState<WeatherData>()
 
-  React.useEffect(() => { city && weatherRequest(city).then(res => setData(res)) }, [city])
+  React.useEffect(() => {
+    city && weatherRequest(city).then(res => setData(res))
+  }, [city])
 
   return (
     <Container>
@@ -61,9 +64,7 @@ const CityCard = ({ city }: { city: string }) => {
         <Col>
           <Text size='mmd'>{data?.name}</Text>
           <Text size='sm'>{data?.sys.country}</Text>
-          <Col
-            style={{ marginTop: 10 }}
-          >
+          <Col style={{ marginTop: 10 }}>
             <Text size='sm'>{data?.weather[0]?.description}</Text>
             <Text size='sm'>
               {data?.main.temp_min.toFixed(0)} °C a {data?.main.temp_max.toFixed(0)} °C
@@ -74,24 +75,17 @@ const CityCard = ({ city }: { city: string }) => {
           style={{
             alignItems: 'center',
             justifyContent: 'space-between',
-            paddingTop: 5
+            paddingTop: 5,
           }}
         >
           <Text size='lg'>{data?.main.temp.toFixed(0)} °C</Text>
-          <Button
-            onPress={() => setFavorite(!favorite)}
-          >
-            <Icon
-              color={favorite ? '#ff0000' : '#e7e4fc'}
-              name='favorite'
-              size={25}
-            />
+          <Button onPress={() => setFavorite(!favorite)}>
+            <Icon color={favorite ? '#ff0000' : '#e7e4fc'} name='favorite' size={25} />
           </Button>
         </Col>
       </Row>
     </Container>
   )
-
 }
 
 export default CityCard
