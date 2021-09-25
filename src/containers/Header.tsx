@@ -25,15 +25,17 @@ const Search = styled(Searchbar)`
   margin-top: 20px;
 `
 
-const Header = () => {
-  const [searchQuery, setSearchQuery] = React.useState<string>('')
+type HeaderProps = {
+  query: string
+  setQuery: React.Dispatch<React.SetStateAction<string>>
+}
+
+const Header = ({ query, setQuery }: HeaderProps) => {
   const [showSearch, setShowSearch] = React.useState<boolean>(false)
 
   const isDarkMode = useColorScheme() === 'dark'
 
   const bgColor = isDarkMode ? 'black' : 'darkest' // DARKMODE
-
-  const onChangeSearch = (query: string) => setSearchQuery(query)
 
   return (
     <Container
@@ -56,9 +58,10 @@ const Header = () => {
       </Wrapper>
       {showSearch &&
         <Search
+          autoCorrect={false}
           placeholder="Procure por uma cidade..."
-          onChangeText={onChangeSearch}
-          value={searchQuery}
+          onChangeText={(query: string) => setQuery(query)}
+          value={query}
       />}
     </Container>
   )

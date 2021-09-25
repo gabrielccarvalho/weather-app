@@ -15,12 +15,12 @@ const ScrollContainer = styled(ScrollView).attrs({
     };
 `
 
-const CardList = () => {
+const CardList = ({ city }: { city: string }) => {
   const isDarkMode = useColorScheme() === 'dark'
 
   return (
     <ScrollContainer isDarkMode={isDarkMode}>
-      <CityCard />
+      <CityCard city={city} />
     </ScrollContainer>
   )
 }
