@@ -3,11 +3,11 @@ import React from 'react'
 import { ThemeProvider } from 'styled-components'
 
 import { theme } from './baseStyles'
-import WeatherApp from './pages'
+import { Cities } from './pages'
 
 const App = () => (
   <ThemeProvider theme={theme}>
-    <WeatherApp />
+    <Cities />
   </ThemeProvider>
 )
 

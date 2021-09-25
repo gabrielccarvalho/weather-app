@@ -13,8 +13,18 @@ const ScrollContainer = styled(ScrollView).attrs({
     isDarkMode ? theme.colors.black : theme.colors.lightest};
 `
 
-const CardList = ({ city }: { city: string }) => {
+type Props = {
+  city: string
+  setEmpty: React.Dispatch<React.SetStateAction<boolean>>
+}
+
+const CardList = ({ city, setEmpty }: Props) => {
   const isDarkMode = useColorScheme() === 'dark'
+
+  React.useEffect(() => {
+    // If there is no search, we don't need to show any card.
+    city === '' && setEmpty(true)
+  }, [city])
 
   return (
     <ScrollContainer isDarkMode={isDarkMode}>

@@ -7,7 +7,7 @@ import { CardList, EmptyState, Header } from '../containers'
 const WeatherApp = () => {
   const [query, setQuery] = React.useState<string>('')
   const [city, setCity] = React.useState<string>('')
-  const [isEmpty, setIsEmpty] = React.useState<boolean>(false)
+  const [isEmpty, setEmpty] = React.useState<boolean>(false)
   const timeoutToUpdateCity = React.useRef<number>(500)
   const isDarkMode = useColorScheme() === 'dark'
 
@@ -28,11 +28,16 @@ const WeatherApp = () => {
     // We update only when the query change
   }, [query])
 
+  React.useEffect(() => {
+    // If there is a search, we don't need to show the empty state anymore.
+    city !== '' && setEmpty(false)
+  }, [city])
+
   return (
     <SafeAreaView style={containerStyle}>
       <StatusBar barStyle='light-content' />
       <Header query={query} setQuery={setQuery} />
-      {isEmpty ? <EmptyState /> : <CardList city={city} />}
+      {isEmpty ? <EmptyState /> : <CardList city={city} setEmpty={setEmpty} />}
     </SafeAreaView>
   )
 }
