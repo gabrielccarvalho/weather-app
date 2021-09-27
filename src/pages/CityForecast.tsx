@@ -1,6 +1,5 @@
 import React from 'react'
-import { SafeAreaView, StatusBar, useColorScheme } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { SafeAreaView, StatusBar } from 'react-native'
 
 import { theme } from '../baseStyles'
 import { Forecast, Header } from '../containers'
@@ -12,11 +11,9 @@ type Props = {
 }
 
 const CityForecast = ({ setPage }: Props) => {
-  const isDarkMode = useColorScheme() === 'dark'
-
   const containerStyle = {
     flexGrow: 1,
-    backgroundColor: isDarkMode ? Colors.dark : theme.colors.lightest, // DARKMODE
+    backgroundColor: theme.colors.lightest,
   }
 
   return (

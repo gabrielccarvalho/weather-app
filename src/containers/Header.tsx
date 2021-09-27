@@ -1,5 +1,5 @@
 import React from 'react'
-import { Platform, View, useColorScheme } from 'react-native'
+import { Platform, View } from 'react-native'
 import { Button, Searchbar } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/FontAwesome'
 import FavIcon from 'react-native-vector-icons/MaterialIcons'
@@ -47,17 +47,13 @@ const Header = ({ query, setQuery, setPage }: HeaderProps) => {
   const { favorites, updateFavorites } = React.useContext(FavoriteContext)
   const [showSearch, setShowSearch] = React.useState<boolean>(false)
 
-  const isDarkMode = useColorScheme() === 'dark'
-
   const isFavorite = favorites.includes(city)
-
-  const bgColor = isDarkMode ? 'black' : 'darkest' // DARKMODE
 
   switch (query === undefined) {
     case false:
       return (
         <Container
-          bgColor={bgColor}
+          bgColor='darkest'
           style={Platform.OS === 'ios' && { marginTop: -50, paddingTop: 50 }}
         >
           <Wrapper>
@@ -81,7 +77,7 @@ const Header = ({ query, setQuery, setPage }: HeaderProps) => {
     default:
       return (
         <Container
-          bgColor={bgColor}
+          bgColor='darkest'
           style={Platform.OS === 'ios' && { marginTop: -50, paddingTop: 50 }}
         >
           <Wrapper>

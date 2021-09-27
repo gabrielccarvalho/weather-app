@@ -1,6 +1,5 @@
 import React from 'react'
-import { SafeAreaView, StatusBar, useColorScheme } from 'react-native'
-import { Colors } from 'react-native/Libraries/NewAppScreen'
+import { SafeAreaView, StatusBar } from 'react-native'
 
 import { theme } from '../baseStyles'
 import { CardList, EmptyState, Header } from '../containers'
@@ -18,11 +17,10 @@ const CitiesList = ({ setPage }: Props) => {
   const [city, setCity] = React.useState<string>('')
   const [isEmpty, setEmpty] = React.useState<boolean>(favorites.length === 0)
   const timeoutToUpdateCity = React.useRef<number>(500)
-  const isDarkMode = useColorScheme() === 'dark'
 
   const containerStyle = {
     flexGrow: 1,
-    backgroundColor: isDarkMode ? Colors.dark : theme.colors.lightest, // DARKMODE
+    backgroundColor: theme.colors.lightest,
   }
 
   // When the query change, we set the city as the query.
