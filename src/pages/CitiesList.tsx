@@ -2,10 +2,17 @@ import React from 'react'
 import { SafeAreaView, StatusBar, useColorScheme } from 'react-native'
 import { Colors } from 'react-native/Libraries/NewAppScreen'
 
+import { theme } from '../baseStyles'
 import { CardList, EmptyState, Header } from '../containers'
 import FavoriteContext from '../containers/FavoriteProvider'
 
-const WeatherApp = () => {
+import { PagesType } from './index'
+
+type Props = {
+  setPage: React.Dispatch<React.SetStateAction<PagesType>>
+}
+
+const CitiesList = ({ setPage }: Props) => {
   const { favorites } = React.useContext(FavoriteContext)
   const [query, setQuery] = React.useState<string>('')
   const [city, setCity] = React.useState<string>('')
@@ -15,7 +22,7 @@ const WeatherApp = () => {
 
   const containerStyle = {
     flexGrow: 1,
-    backgroundColor: isDarkMode ? Colors.dark : '#e7e4fc', // DARKMODE
+    backgroundColor: isDarkMode ? Colors.dark : theme.colors.lightest, // DARKMODE
   }
 
   // When the query change, we set the city as the query.
@@ -39,9 +46,9 @@ const WeatherApp = () => {
     <SafeAreaView style={containerStyle}>
       <StatusBar barStyle='light-content' />
       <Header query={query} setQuery={setQuery} />
-      {isEmpty ? <EmptyState /> : <CardList city={city} />}
+      {isEmpty ? <EmptyState /> : <CardList city={city} setPage={setPage} />}
     </SafeAreaView>
   )
 }
 
-export default WeatherApp
+export default CitiesList

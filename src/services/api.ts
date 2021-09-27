@@ -7,7 +7,7 @@ import axios from 'axios'
 export async function weatherRequest(city: string) {
   return axios
     .get(
-      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric`
+      `https://api.openweathermap.org/data/2.5/weather?q=${city}&appid=${API_KEY}&units=metric&lang=pt_br`
     )
     .then(res => res.data)
     .catch(error => console.error(error))
@@ -17,7 +17,7 @@ export async function weatherRequest(city: string) {
 export async function forecastRequest(city: string) {
   return axios
     .get(
-      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric`
+      `https://api.openweathermap.org/data/2.5/forecast?q=${city}&appid=${API_KEY}&units=metric&lang=pt_br`
     )
     .then(res => res.data)
     .catch(error => console.error(error))

@@ -1,11 +1,14 @@
 import React from 'react'
-import { View } from 'react-native'
+import { TouchableWithoutFeedback, View } from 'react-native'
 import { Button } from 'react-native-paper'
 import Icon from 'react-native-vector-icons/MaterialIcons'
 
 import styled from 'styled-components'
 
+import { theme } from '../baseStyles'
+import CityForecastContext from '../containers/CityForecastProvider'
 import FavoriteContext from '../containers/FavoriteProvider'
+import { PagesType } from '../pages'
 import { weatherRequest } from '../services/api'
 
 import { Text } from './Text'
@@ -52,8 +55,14 @@ type WeatherData = {
   }
 }
 
-const CityCard = ({ city }: { city: string }) => {
+type Props = {
+  city: string
+  setPage: React.Dispatch<React.SetStateAction<PagesType>>
+}
+
+const CityCard = ({ city, setPage }: Props) => {
   const { favorites, updateFavorites } = React.useContext(FavoriteContext)
+  const { setCity } = React.useContext(CityForecastContext)
   const [favorite, setFavorite] = React.useState<boolean>(favorites.includes(city))
   const [data, setData] = React.useState<WeatherData>()
 
@@ -61,37 +70,49 @@ const CityCard = ({ city }: { city: string }) => {
     city && weatherRequest(city).then(res => setData(res))
   }, [city])
 
+  const handlePress = () => {
+    setCity(city)
+    setPage('CityForecast')
+  }
+
   return (
     <Container>
-      <Row>
-        <Col>
-          <Text size='mmd'>{data?.name}</Text>
-          <Text size='sm'>{data?.sys.country}</Text>
-          <Col style={{ marginTop: 10 }}>
-            <Text size='sm'>{data?.weather[0]?.description}</Text>
-            <Text size='sm'>
-              {data?.main.temp_min.toFixed(0)} °C a {data?.main.temp_max.toFixed(0)} °C
-            </Text>
+      <TouchableWithoutFeedback onPress={handlePress}>
+        <Row>
+          <Col>
+            <Text size='mmd'>{data?.name}</Text>
+            <Text size='sm'>{data?.sys.country}</Text>
+            <Col style={{ marginTop: 10 }}>
+              <Text size='sm'>{data?.weather[0]?.description}</Text>
+              <Text size='sm'>
+                {data?.main.temp_min.toFixed(0)} °C a {data?.main.temp_max.toFixed(0)} °C
+              </Text>
+            </Col>
           </Col>
-        </Col>
-        <Col
-          style={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: 5,
-          }}
-        >
-          <Text size='lg'>{data?.main.temp.toFixed(0)} °C</Text>
-          <Button
-            onPress={() => {
-              setFavorite(!favorite)
-              updateFavorites(city)
+          <Col
+            style={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: 5,
             }}
           >
-            <Icon color={favorite ? '#ff0000' : '#e7e4fc'} name='favorite' size={25} />
-          </Button>
-        </Col>
-      </Row>
+            <Text size='lg'>{data?.main.temp.toFixed(0)} °C</Text>
+            <Button
+              onPress={() => {
+                setFavorite(!favorite)
+                updateFavorites(city)
+              }}
+              style={{ zIndex: 999 }} // Favourite button should be over everything
+            >
+              <Icon
+                color={favorite ? theme.colors.red : theme.colors.lightest}
+                name='favorite'
+                size={25}
+              />
+            </Button>
+          </Col>
+        </Row>
+      </TouchableWithoutFeedback>
     </Container>
   )
 }
