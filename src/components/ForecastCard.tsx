@@ -9,6 +9,7 @@ import CityForecastContext from '../containers/CityForecastProvider'
 import { forecastRequest } from '../services/api'
 import { capitalize } from '../utils/functions'
 
+import LoadingCard from './LoadingCard'
 import { Text } from './Text'
 
 const Container = styled(View)`
@@ -45,10 +46,12 @@ type WeatherData = {
         pressure: number
         humidity: number
       }
-      weather: {
-        main: string
-        description: string
-      }
+      weather: [
+        {
+          main: string
+          description: string
+        }
+      ]
       dt_txt: string
     }
   ]
@@ -82,28 +85,34 @@ const ForecastCard = ({ date }: Props) => {
 
   return (
     <Container>
-      <Row>
-        <Col>
-          <Text size='mmd'>{day}</Text>
-          <Text size='sm'>{data?.city.country}</Text>
-          <Col style={{ marginTop: 10 }}>
-            <Text size='sm'>{filtereData?.weather.description}</Text>
-            <Text size='sm'>
-              {filtereData?.main.temp_min.toFixed(0)} °C a{' '}
-              {filtereData?.main.temp_max.toFixed(0)} °C
-            </Text>
+      {data && filtereData ? (
+        <Row>
+          <Col>
+            <Text size='mmd'>{day}</Text>
+            <Text size='sm'>{data.city.country}</Text>
+            <Col style={{ marginTop: 10 }}>
+              <Text size='sm' color='darkest' weight='semiBold'>
+                {capitalize(filtereData.weather[0].description)}
+              </Text>
+              <Text size='sm'>
+                {filtereData.main.temp_min.toFixed(0)} °C a{' '}
+                {filtereData.main.temp_max.toFixed(0)} °C
+              </Text>
+            </Col>
           </Col>
-        </Col>
-        <Col
-          style={{
-            alignItems: 'center',
-            justifyContent: 'space-between',
-            paddingTop: 5,
-          }}
-        >
-          <Text size='lg'>{filtereData?.main.temp.toFixed(0)} °C</Text>
-        </Col>
-      </Row>
+          <Col
+            style={{
+              alignItems: 'center',
+              justifyContent: 'space-between',
+              paddingTop: 5,
+            }}
+          >
+            <Text size='lg'>{filtereData.main.temp.toFixed(0)} °C</Text>
+          </Col>
+        </Row>
+      ) : (
+        <LoadingCard />
+      )}
     </Container>
   )
 }

@@ -10,7 +10,9 @@ import CityForecastContext from '../containers/CityForecastProvider'
 import FavoriteContext from '../containers/FavoriteProvider'
 import { PagesType } from '../pages'
 import { weatherRequest } from '../services/api'
+import { capitalize } from '../utils/functions'
 
+import LoadingCard from './LoadingCard'
 import { Text } from './Text'
 
 const Container = styled(View)`
@@ -77,42 +79,48 @@ const CityCard = ({ city, setPage }: Props) => {
 
   return (
     <Container>
-      <TouchableWithoutFeedback onPress={handlePress}>
-        <Row>
-          <Col>
-            <Text size='mmd'>{data?.name}</Text>
-            <Text size='sm'>{data?.sys.country}</Text>
-            <Col style={{ marginTop: 10 }}>
-              <Text size='sm'>{data?.weather[0]?.description}</Text>
-              <Text size='sm'>
-                {data?.main.temp_min.toFixed(0)} °C a {data?.main.temp_max.toFixed(0)} °C
-              </Text>
+      {data ? (
+        <TouchableWithoutFeedback onPress={handlePress}>
+          <Row>
+            <Col>
+              <Text size='mmd'>{data.name}</Text>
+              <Text size='sm'>{data.sys.country}</Text>
+              <Col style={{ marginTop: 10 }}>
+                <Text size='sm' color='darkest' weight='semiBold'>
+                  {capitalize(data.weather[0].description)}
+                </Text>
+                <Text size='sm'>
+                  {data.main.temp_min.toFixed(0)} °C a {data.main.temp_max.toFixed(0)} °C
+                </Text>
+              </Col>
             </Col>
-          </Col>
-          <Col
-            style={{
-              alignItems: 'center',
-              justifyContent: 'space-between',
-              paddingTop: 5,
-            }}
-          >
-            <Text size='lg'>{data?.main.temp.toFixed(0)} °C</Text>
-            <Button
-              onPress={() => {
-                setFavorite(!favorite)
-                updateFavorites(city)
+            <Col
+              style={{
+                alignItems: 'center',
+                justifyContent: 'space-between',
+                paddingTop: 5,
               }}
-              style={{ zIndex: 999 }} // Favourite button should be over everything
             >
-              <Icon
-                color={favorite ? theme.colors.red : theme.colors.lightest}
-                name='favorite'
-                size={25}
-              />
-            </Button>
-          </Col>
-        </Row>
-      </TouchableWithoutFeedback>
+              <Text size='lg'>{data.main.temp.toFixed(0)} °C</Text>
+              <Button
+                onPress={() => {
+                  setFavorite(!favorite)
+                  updateFavorites(city)
+                }}
+                style={{ zIndex: 999 }} // Favourite button should be over everything
+              >
+                <Icon
+                  color={favorite ? theme.colors.red : theme.colors.lightest}
+                  name='favorite'
+                  size={25}
+                />
+              </Button>
+            </Col>
+          </Row>
+        </TouchableWithoutFeedback>
+      ) : (
+        <LoadingCard />
+      )}
     </Container>
   )
 }
